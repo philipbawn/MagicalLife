@@ -11,13 +11,13 @@ namespace MagicalLifeAPI.World.Resources
     [ProtoInclude(1, typeof(OakTree))]
     [ProtoInclude(2, typeof(MapleTree))]
     [ProtoInclude(3, typeof(PineTree))]
-    public abstract class TreeBase : PlantBase
+    public abstract class PlantBase : Resource
     {
-        protected TreeBase(string name, int durability) : base(name, durability)
+        protected PlantBase(string name, int durability) : base(name, durability)
         {
         }
 
-        protected TreeBase()
+        protected PlantBase()
         {
         }
     }
