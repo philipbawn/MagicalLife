@@ -1,4 +1,5 @@
 ﻿using MagicalLifeAPI.Asset;
+using MagicalLifeAPI.Components.Generic.Renderable;
 using MagicalLifeGUIWindows.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -198,15 +199,6 @@ namespace MagicalLifeGUIWindows.GUI.Reusable
             }
         }
 
-        public override void Click(MouseEventArgs e, GUIContainer container)
-        {
-        }
-
-        public override void DoubleClick(MouseEventArgs e, GUIContainer container)
-        {
-            //Single click is good enough for now
-        }
-
         public override void Render(SpriteBatch spBatch, Rectangle containerBounds)
         {
             Rectangle location;
@@ -214,7 +206,7 @@ namespace MagicalLifeGUIWindows.GUI.Reusable
             int y = this.DrawingBounds.Y + containerBounds.Y;
             location = new Rectangle(x, y, this.DrawingBounds.Width, this.DrawingBounds.Height);
             spBatch.Draw(AssetManager.Textures[this.TextureID], location, Color.White);
-            DrawString(this.Font, this.Text, location, Alignment.Left, Color.White, ref spBatch);
+            DrawString(this.Font, this.Text, location, Alignment.Left, Color.White, spBatch, RenderLayer.GUI);
 
             Rectangle carrotLocation = this.CalculateCarrotBounds(this, containerBounds);
 

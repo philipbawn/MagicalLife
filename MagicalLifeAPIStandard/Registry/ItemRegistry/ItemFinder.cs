@@ -1,7 +1,6 @@
 ﻿using MagicalLifeAPI.DataTypes;
 using MagicalLifeAPI.DataTypes.R;
 using MagicalLifeAPI.Pathfinding;
-using MagicalLifeAPI.Util.Math;
 using MagicalLifeAPI.World;
 using MagicalLifeAPI.World.Base;
 using MagicalLifeAPI.World.Data;
@@ -14,7 +13,7 @@ namespace MagicalLifeAPI.Registry.ItemRegistry
     /// </summary>
     public static class ItemFinder//TODO: Rework this to be faster, possibly by writing my own R-tree/other data structure
     {
-        public static float SearchDistance = 10000;
+        public static readonly float SearchDistance = 10000;
 
         /// <summary>
         /// Finds the item(s) closest to the <paramref name="mapLocation"/> that matches the <paramref name="itemID"/>.

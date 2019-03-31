@@ -1,7 +1,6 @@
 ﻿using MagicalLifeAPI.Asset;
 using MagicalLifeAPI.Filing;
 using MagicalLifeGUIWindows.GUI.Reusable;
-using MagicalLifeGUIWindows.GUI.Reusable.API;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -33,7 +32,7 @@ namespace MagicalLifeGUIWindows.GUI.Load
             List<GUIElement> ret = new List<GUIElement>();
             foreach (string item in saves)
             {
-                ret.Add(new RenderableString(ItemFont, item));
+                ret.Add(new RenderableString(ItemFont, item, Rendering.Text.SimpleTextRenderer.Alignment.Center));
             }
 
             return ret;

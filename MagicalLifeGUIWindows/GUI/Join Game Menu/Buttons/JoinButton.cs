@@ -15,6 +15,18 @@ namespace MagicalLifeGUIWindows.GUI.Join
     {
         public JoinButton() : base(TextureLoader.GUIMenuBackground, GetDisplayArea(), true, "Join Game")
         {
+            this.ClickEvent += this.JoinButton_ClickEvent;
+        }
+
+        private void JoinButton_ClickEvent(object sender, Reusable.Event.ClickEventArgs e)
+        {
+            World.Mode = MagicalLifeAPI.Networking.EngineMode.ClientOnly;
+            FMODUtil.RaiseEvent(SoundsTable.UIClick);
+            ClientSendRecieve.Initialize(new MagicalLifeAPI.Networking.NetworkSettings(JoinGameMenu.Menu.IpInputBox.Text, int.Parse(JoinGameMenu.Menu.PortInputBox.Text)));
+            Client.Load();
+            MenuHandler.Clear();
+            InGameGUI.Initialize();
+            BoundHandler.Popup(InGameGUI.InGame);
         }
 
         private static Rectangle GetDisplayArea()
@@ -24,21 +36,6 @@ namespace MagicalLifeGUIWindows.GUI.Join
             int width = JoinGameMenuLayout.IPInputBoxWidth;
             int height = JoinGameMenuLayout.IPInputBoxHeight;
             return new Rectangle(x, y, width, height);
-        }
-
-        public override void Click(MouseEventArgs e, GUIContainer container)
-        {
-            World.Mode = MagicalLifeAPI.Networking.EngineMode.ClientOnly;
-            FMODUtil.RaiseEvent(SoundsTable.UIClick);
-            ClientSendRecieve.Initialize(new MagicalLifeAPI.Networking.NetworkSettings(JoinGameMenu.menu.IpInputBox.Text, int.Parse(JoinGameMenu.menu.PortInputBox.Text)));
-            Client.Load();
-            MenuHandler.Clear();
-            InGameGUI.Initialize();
-            BoundHandler.Popup(InGameGUI.InGame);
-        }
-
-        public override void DoubleClick(MouseEventArgs e, GUIContainer container)
-        {
         }
     }
 }

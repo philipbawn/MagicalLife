@@ -1,4 +1,6 @@
 ﻿using MagicalLifeAPI.Asset;
+using MagicalLifeAPI.Components.Generic.Renderable;
+using MagicalLifeAPI.Error.InternalExceptions;
 using MagicalLifeGUIWindows.Rendering.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,16 +40,6 @@ namespace MagicalLifeGUIWindows.GUI.Reusable
         {
         }
 
-        public override void Click(MouseEventArgs e, GUIContainer container)
-        {
-            //This is a label. Nothing happens when you click on it.
-        }
-
-        public override void DoubleClick(MouseEventArgs e, GUIContainer container)
-        {
-            //This is a label. Nothing happens when you click on it.
-        }
-
         public override void Render(SpriteBatch spBatch, Rectangle containerBounds)
         {
             int x = containerBounds.X + this.DrawingBounds.X;
@@ -57,9 +49,14 @@ namespace MagicalLifeGUIWindows.GUI.Reusable
 
             Rectangle Bounds = new Rectangle(x, y, width, height);
 
+            if (width == 0 || height == 0)
+            {
+                throw new InvalidDataException("Width or height cannot be 0");
+            }
+
             if (this.Text != null)
             {
-                SimpleTextRenderer.DrawString(this.Font, this.Text, Bounds, this.TextAlignment, Color.White, ref spBatch);
+                SimpleTextRenderer.DrawString(this.Font, this.Text, Bounds, this.TextAlignment, Color.White, spBatch, RenderLayer.GUI);
             }
         }
     }

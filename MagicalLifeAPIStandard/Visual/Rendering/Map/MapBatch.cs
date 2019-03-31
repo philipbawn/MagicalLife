@@ -1,10 +1,12 @@
 ﻿using MagicalLifeAPI.Components.Generic.Renderable;
+using MagicalLifeAPI.Filing.Logging;
 using MagicalLifeAPI.Util.Reusable;
 using MagicalLifeAPI.Visual.Rendering.Renderer;
+using MagicalLifeGUIWindows.Rendering.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
+using static MagicalLifeGUIWindows.Rendering.Text.SimpleTextRenderer;
 
 namespace MagicalLifeGUIWindows.Rendering.Map
 {
@@ -45,6 +47,10 @@ namespace MagicalLifeGUIWindows.Rendering.Map
 
                 foreach (RenderCallHolder item in this.RenderActions)
                 {
+                    if (item.RenderLayer == RenderLayer.GUI)
+                    {
+                        MasterLog.DebugWriteLine("Render callID: " + item.RenderCallID.ToString() + " Layer: " + item.RenderLayer.ToString() + "Texture: ");
+                    }
                     item.Action.Invoke();
                 }
 
@@ -66,16 +72,27 @@ namespace MagicalLifeGUIWindows.Rendering.Map
         }
 
         /// <summary>
+        /// Draws text at the specified location within the map, accounting for player view positioning.
+        /// </summary>
+        public void DrawText(string text, Rectangle target, SpriteFont font, Alignment alignment, int renderLayer)
+        {
+            void renderCall() => this.DrawText(text, target, font, alignment);
+            this.RenderActions.Add(new RenderCallHolder(renderLayer, renderCall, this.CallCounter.Increment()));
+        }
+
+        private void DrawText(string text, Rectangle target, SpriteFont font, Alignment alignment)
+        {
+            SimpleTextRenderer.DrawString(font, text, target, alignment, Color.White, this.SpriteBat, 0);
+        }
+
+        /// <summary>
         /// Draws the <paramref name="texture"/> at the <paramref name="target"/> location. Applies a standard white mask.
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="target"></param>
         private void Draw(Texture2D texture, Rectangle target)
         {
-            int x = target.X + RenderInfo.XViewOffset;
-            int y = target.Y + RenderInfo.YViewOffset;
-
-            this.SpriteBat.Draw(texture, new Rectangle(x, y, target.Width, target.Height), Color.White);
+            this.SpriteBat.Draw(texture, target, Color.White);
         }
 
         /// <summary>
@@ -98,10 +115,7 @@ namespace MagicalLifeGUIWindows.Rendering.Map
         /// <param name="textureSection">The section of the texture that will be drawn.</param>
         private void Draw(Texture2D texture, Vector2 target, Rectangle textureSection)
         {
-            float x = (float)Math.Round(target.X + RenderInfo.XViewOffset);
-            float y = (float)Math.Round(target.Y + RenderInfo.YViewOffset);
-
-            this.SpriteBat.Draw(texture, new Vector2(x, y), textureSection, Color.White);
+            this.SpriteBat.Draw(texture, target, textureSection, Color.White);
         }
 
         public void Draw(Texture2D texture, Vector2 target, int renderLayer)
@@ -112,10 +126,7 @@ namespace MagicalLifeGUIWindows.Rendering.Map
 
         private void Draw(Texture2D texture, Vector2 target)
         {
-            int x = (int)Math.Round(target.X + RenderInfo.XViewOffset);
-            int y = (int)Math.Round(target.Y + RenderInfo.YViewOffset);
-
-            this.SpriteBat.Draw(texture, new Vector2(x, y), Color.White);
+            this.SpriteBat.Draw(texture, target, Color.White);
         }
     }
 }

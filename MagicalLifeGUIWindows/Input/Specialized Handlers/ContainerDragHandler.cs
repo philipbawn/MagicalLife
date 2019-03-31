@@ -1,17 +1,11 @@
-﻿using MagicalLifeAPI.Filing.Logging;
-using MagicalLifeAPI.Util.Reusable;
-using MagicalLifeGUIWindows.GUI.Reusable;
+﻿using MagicalLifeGUIWindows.GUI.Reusable;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MagicalLifeGUIWindows.Input.Specialized_Handlers
 {
     /// <summary>
-    /// Handles GUI containers being dragged. 
+    /// Handles GUI containers being dragged.
     /// </summary>
     public class ContainerDragHandler
     {
@@ -27,9 +21,9 @@ namespace MagicalLifeGUIWindows.Input.Specialized_Handlers
 
         public ContainerDragHandler()
         {
-            BoundHandler.MouseListner.MouseDragStart += this.MouseListner_MouseDragStart;
-            BoundHandler.MouseListner.MouseDrag += this.MouseListner_MouseDrag;
-            BoundHandler.MouseListner.MouseDragEnd += this.MouseListner_MouseDragEnd;
+            BoundHandler.MouseListener.MouseDragStart += this.MouseListner_MouseDragStart;
+            BoundHandler.MouseListener.MouseDrag += this.MouseListner_MouseDrag;
+            BoundHandler.MouseListener.MouseDragEnd += this.MouseListner_MouseDragEnd;
         }
 
         private void MouseListner_MouseDragEnd(object sender, MonoGame.Extended.Input.InputListeners.MouseEventArgs e)
@@ -76,7 +70,6 @@ namespace MagicalLifeGUIWindows.Input.Specialized_Handlers
                 Rectangle newPosition = new Rectangle(position, this.LastDragged.DrawingBounds.Size);
 
                 this.LastDragged.DrawingBounds = newPosition;
-                this.LastDragged.AdjustClickBounds((int)e.DistanceMoved.X, (int)e.DistanceMoved.Y);
             }
         }
 

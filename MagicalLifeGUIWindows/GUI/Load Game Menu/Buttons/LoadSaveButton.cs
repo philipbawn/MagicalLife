@@ -7,7 +7,6 @@ using MagicalLifeAPI.World.Data.Disk;
 using MagicalLifeClient;
 using MagicalLifeGUIWindows.GUI.In;
 using MagicalLifeGUIWindows.GUI.Reusable;
-using MagicalLifeGUIWindows.GUI.Reusable.API;
 using MagicalLifeGUIWindows.Input;
 using MagicalLifeServer;
 using Microsoft.Xna.Framework;
@@ -19,19 +18,10 @@ namespace MagicalLifeGUIWindows.GUI.Load
     {
         public LoadSaveButton() : base(TextureLoader.GUIMenuButton, GetDisplayArea(), true, "Load Save")
         {
+            this.ClickEvent += this.LoadSaveButton_ClickEvent;
         }
 
-        private static Rectangle GetDisplayArea()
-        {
-            int x = LoadGameMenuLayout.LoadSaveButtonX;
-            int y = LoadGameMenuLayout.LoadSaveButtonY;
-            int width = LoadGameMenuLayout.LoadSaveButtonWidth;
-            int height = LoadGameMenuLayout.LoadSaveButtonHeight;
-
-            return new Rectangle(x, y, width, height);
-        }
-
-        public override void Click(MouseEventArgs e, GUIContainer container)
+        private void LoadSaveButton_ClickEvent(object sender, Reusable.Event.ClickEventArgs e)
         {
             int selected = LoadGameMenu.Menu.SaveSelectListBox.SelectedIndex;
             if (selected != -1)
@@ -42,8 +32,8 @@ namespace MagicalLifeGUIWindows.GUI.Load
                 WorldStorage.LoadWorld(selectedItem.Text);
 
                 Server.Load();
-                ClientSendRecieve.Initialize(new MagicalLifeAPI.Networking.NetworkSettings());
-                ServerSendRecieve.Initialize(new MagicalLifeAPI.Networking.NetworkSettings());
+                ClientSendRecieve.Initialize(new MagicalLifeAPI.Networking.NetworkSettings(MagicalLifeAPI.Networking.EngineMode.ServerAndClient));
+                ServerSendRecieve.Initialize(new MagicalLifeAPI.Networking.NetworkSettings(MagicalLifeAPI.Networking.EngineMode.ServerAndClient));
                 Client.Load();
                 Server.StartGame();
                 BoundHandler.RemoveContainer(LoadGameMenu.Menu);
@@ -54,9 +44,14 @@ namespace MagicalLifeGUIWindows.GUI.Load
             }
         }
 
-        public override void DoubleClick(MouseEventArgs e, GUIContainer container)
+        private static Rectangle GetDisplayArea()
         {
-            // Single click is good enough
+            int x = LoadGameMenuLayout.LoadSaveButtonX;
+            int y = LoadGameMenuLayout.LoadSaveButtonY;
+            int width = LoadGameMenuLayout.LoadSaveButtonWidth;
+            int height = LoadGameMenuLayout.LoadSaveButtonHeight;
+
+            return new Rectangle(x, y, width, height);
         }
     }
 }

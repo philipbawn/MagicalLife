@@ -1,7 +1,5 @@
 ﻿using ProtoBuf;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MagicalLifeAPI.Entity.Experience
 {
@@ -12,12 +10,17 @@ namespace MagicalLifeAPI.Entity.Experience
     public class SqrtXPCalculator : IXPCalculator
     {
         [ProtoMember(1)]
-        private int Constant;
+        private readonly int Constant;
 
         /// <param name="constant">A constant to scale the results by.</param>
         public SqrtXPCalculator(int constant)
         {
             this.Constant = constant;
+        }
+
+        protected SqrtXPCalculator()
+        {
+            //Protobuf-net constructor
         }
 
         public ulong GetRequiredXP(int newLevel)

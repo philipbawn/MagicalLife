@@ -12,15 +12,9 @@ namespace MagicalLifeAPI.Filing.Logging
         private static readonly string LogPath = FileSystemManager.InstanceRootFolder + Path.DirectorySeparatorChar + "MasterLog.txt";
         private static TextWriter Writer;
 
-
         public static void Initialize()
         {
             Writer = new StreamWriter(LogPath, true);
-        }
-
-        public static void Dispose()
-        {
-            Writer.Dispose();
         }
 
         /// <summary>
@@ -32,6 +26,7 @@ namespace MagicalLifeAPI.Filing.Logging
         {
             string time = DateTime.UtcNow.ToString("[yyyy-MM-dd HH:mm:ss.fff]");
             Writer.WriteLine(time + " [DBG]: " + msg);
+            Writer.Flush();
         }
 
         [Conditional("DEBUG")]
